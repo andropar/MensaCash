@@ -18,18 +18,20 @@
         </activity>
         <activity android:name=".ReadActivity">
             <intent-filter>
-                <action android:name="android.nfc.action.TECH_DISCOVERED"/>
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.example.johan.nfcreaderforunicard.TOGGLE_ON"></action>
             </intent-filter>
-            <meta-data android:name="android.nfc.action.TECH_DISCOVERED"
-                android:resource="@xml/tech"/>
         </activity>
         <activity android:name=".AboutActivity">
         </activity>
         <activity android:name=".SettingsActivity">
         </activity>
-        <service android:name=".ReaderService">
-
+        <service android:name=".ReaderIntentHandler">
+            <intent-filter>
+                <action android:name="android.nfc.action.TECH_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/tech"/>
         </service>
     </application>
 

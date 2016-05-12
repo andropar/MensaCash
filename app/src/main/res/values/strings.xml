@@ -5,6 +5,8 @@
     <string name="about_text">"Made by: Johannes Roth\n
         Code on Github:\n
         ..."</string>
-    <string name="pref_toggle">"Aktivieren"</string>
-    <string name="pref_toggle_summ">Aktivierung außerhalb App aktivieren.</string>
+    <string name="pref_toggle_key">toggleKey</string>
+    <string name="pref_toggle">"Starten bei geschlossener App"</string>
+    <string name="pref_toggle_summ">Auflegen der Unicard startet App, wenn diese nicht schon geöffnet ist.</string>
+
 </resources>

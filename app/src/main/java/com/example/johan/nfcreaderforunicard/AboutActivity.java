@@ -32,13 +32,11 @@ public class AboutActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem menuItem){
         switch(menuItem.getItemId()){
             case(R.id.action_settings):
-                Intent startSettings = new Intent();
-                startSettings.setComponent(new ComponentName("com.example.johan.nfcreaderforunicard", "com.example.johan.nfcreaderforunicard.SettingsActivity"));
+                Intent startSettings = new Intent(AboutActivity.this, SettingsActivity.class);
                 startActivity(startSettings);
                 return true;
             case(R.id.about):
-                Intent startAbout = new Intent();
-                startAbout.setComponent(new ComponentName("com.example.johan.nfcreaderforunicard", "com.example.johan.nfcreaderforunicard.AboutActivity"));
+                Intent startAbout = new Intent(AboutActivity.this, AboutActivity.class);
                 startActivity(startAbout);
                 return true;
             default:

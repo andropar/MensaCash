@@ -1,11 +1,12 @@
 package com.example.johan.nfcreaderforunicard;
 
 import android.app.IntentService;
-import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by johan on 11.05.2016.
  */
-public class ReaderService extends IntentService {
+public class ReaderIntentHandler extends IntentService {
 
     // Storage-Bytes for InterCard
     private final byte[] selectAid = {(byte)90, (byte)95, (byte)-124, (byte)21};      //select application command
@@ -22,8 +23,8 @@ public class ReaderService extends IntentService {
     private byte[] resultOk;
     private byte[] creditBytes;
 
-    public ReaderService(){
-        super("ReaderService");
+    public ReaderIntentHandler(){
+        super("ReaderIntentHandler");
     }
 
     @Override
@@ -40,19 +41,23 @@ public class ReaderService extends IntentService {
             }
         }
         String credit = formatCreditToText(creditBytes);
-        Intent result = new Intent("data");
-        result.putExtra("result", credit);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(result);
+        Intent result = new Intent();
+        result.putExtra("credit", credit);
+        SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(getApplication());
+        String toggleKey = getString(R.string.pref_toggle_key);
+        Boolean toggleStatus = sPref.getBoolean(toggleKey, false);
+        if(toggleStatus){
+            result.setAction("com.example.johan.nfcreaderforunicard.TOGGLE_ON");
+            startActivity(result);
+        }else{
+            result.setAction("com.example.johan.nfcreaderforunicard.TOGGLE_OFF");
+            LocalBroadcastManager.getInstance(this).sendBroadcast(result);
+        }
        }
 
     private String formatCreditToText(byte[] array) {
         double credit = (double)(((0xff & array[4]) << 24) + ((0xff & array[3]) << 16) + ((0xff & array[2]) << 8) + (0xff & array[1])) / 1000D;
         String creditStr = String.valueOf(credit);
-        String formattedCredit;
-        if(credit < 1.90) formattedCredit = "Arme Sau!:\n" + creditStr + "€";
-        else if(credit >= 1.90 && credit < 2.45) formattedCredit = "Nudeltime!:\n" + creditStr + "€";
-        else if(credit >= 2.45 && credit < 3.30) formattedCredit = "Freie Wahl!:\n" + creditStr + "€";
-        else formattedCredit = "Reicher Sack!:\n" + creditStr + "€";
-        return formattedCredit;
+        return creditStr;
     }
 }
