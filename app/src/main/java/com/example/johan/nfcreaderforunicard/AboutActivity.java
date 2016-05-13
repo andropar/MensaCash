@@ -43,4 +43,11 @@ public class AboutActivity extends AppCompatActivity{
                 return super.onOptionsItemSelected(menuItem);
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        Intent backToMain = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(backToMain);
+        finish();
+    }
 }
