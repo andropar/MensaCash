@@ -2,9 +2,7 @@
     <string name="app_name">MensaCash</string>
     <string name="action_settings">Einstellungen</string>
     <string name="about">Über</string>
-    <string name="about_text">"Made by: Johannes Roth\n
-        Code on Github:\n
-        ..."</string>
+    <string name="about_text">"Made by: Johannes Roth\n\nCode on Github:\n\nhttps://github.com/andropar/MensaCash"</string>
     <string name="pref_toggle_key">toggleKey</string>
     <string name="pref_toggle">"Starten bei geschlossener App"</string>
     <string name="pref_toggle_summ">Auflegen der Unicard startet App, wenn diese nicht schon geöffnet ist.</string>

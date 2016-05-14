@@ -24,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+        PackageManager pkgMgr = getPackageManager();
+        ComponentName comp = new ComponentName("com.example.johan.nfcreaderforunicard",
+                "com.example.johan.nfcreaderforunicard.ActivityAlias");
+        pkgMgr.setComponentEnabledSetting(comp, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+
     }
 
     @Override
@@ -72,5 +78,10 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(menuItem);
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 }
