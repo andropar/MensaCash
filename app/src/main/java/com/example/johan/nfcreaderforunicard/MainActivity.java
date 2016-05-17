@@ -1,14 +1,6 @@
 package com.example.johan.nfcreaderforunicard;
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -24,37 +16,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        PackageManager pkgMgr = getPackageManager();
-        ComponentName comp = new ComponentName("com.example.johan.nfcreaderforunicard",
-                "com.example.johan.nfcreaderforunicard.ActivityAlias");
-        pkgMgr.setComponentEnabledSetting(comp, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
-
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        PackageManager pkgMgr = getPackageManager();
-        ComponentName comp = new ComponentName("com.example.johan.nfcreaderforunicard",
-                "com.example.johan.nfcreaderforunicard.ActivityAlias");
-        pkgMgr.setComponentEnabledSetting(comp, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
-
-    }
-
-    @Override
-    public void onStop(){
-        SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean toggleState = sPref.getBoolean("toggleKey", true);
-        if(!toggleState) {
-            PackageManager pkgMgr = getPackageManager();
-            ComponentName comp = new ComponentName("com.example.johan.nfcreaderforunicard",
-                    "com.example.johan.nfcreaderforunicard.ActivityAlias");
-            pkgMgr.setComponentEnabledSetting(comp, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                    PackageManager.DONT_KILL_APP);
-        }
-        super.onStop();
     }
 
     @Override

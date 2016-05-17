@@ -19,41 +19,22 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ReadActivity"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity" />
-        </activity>
-
-        <activity android:name=".AboutActivity"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity" />
-        </activity>
-
-        <activity android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity" />
-        </activity>
-
-        <activity-alias
-            android:name=".ActivityAlias"
-            android:targetActivity=".ReadActivity"
-            android:enabled="true"
-            android:exported="true">
+        <activity android:name=".ReadActivity">
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <meta-data android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/tech"/>
-        </activity-alias>
+        </activity>
 
+        <activity android:name=".AboutActivity">
 
+        </activity>
+
+        <activity android:name=".SettingsActivity">
+
+        </activity>
 
     </application>
 

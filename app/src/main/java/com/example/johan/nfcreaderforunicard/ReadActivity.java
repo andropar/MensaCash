@@ -1,26 +1,19 @@
 package com.example.johan.nfcreaderforunicard;
 
-import android.content.ComponentName;
-import android.content.SharedPreferences;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.content.Intent;
 import android.os.Bundle;
 
 import java.io.IOException;
 
-/**
- * Created by johan on 10.05.2016.
- */
 public class ReadActivity extends AppCompatActivity {
 
     // Storage-Bytes for InterCard
@@ -84,7 +77,7 @@ public class ReadActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        Intent backToMain = new Intent(getApplicationContext(),MainActivity.class);
+        Intent backToMain = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(backToMain);
         finish();
     }

@@ -1,6 +1,5 @@
 package com.example.johan.nfcreaderforunicard;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
