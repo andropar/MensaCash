@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mensas">
+        <item name="1">Cafeteria Dittrichring</item>
+        <item name="2">Cafeteria Philipp-Rosenthal-Straße</item>
+        <item name="3">Mensa Academica</item>
+        <item name="4">Mensa am Park</item>
+        <item name="5">Mensa am Elsterbecken</item>
+        <item name="6">Mensaria Liebigstraße</item>
+        <item name="7">Mensa Peterssteinweg</item>
+        <item name="8">Mensa Schönauer Straße</item>
+        <item name="9">Mensa Tierklinik</item>
+    </string-array>
+    <string-array name="mensa_values">
+        <item name="1">153</item>
+        <item name="2">127</item>
+        <item name="3">118</item>
+        <item name="4">106</item>
+        <item name="5">115</item>
+        <item name="6">162</item>
+        <item name="7">111</item>
+        <item name="8">140</item>
+        <item name="9">170</item>
+    </string-array>
+</resources>

@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class ReadActivity extends AppCompatActivity {
 
@@ -42,14 +44,22 @@ public class ReadActivity extends AppCompatActivity {
                 }
             }
         }
-        float credit = (float)formatCredit(creditBytes);
+        float credit = (float)formatCreditToDouble(creditBytes);
         TextView label = (TextView)findViewById(R.id.read_text);
-        label.setText("Dein Guthaben: "+String.valueOf(credit)+"€");
+        label.setText("Guthaben: "+round(credit, 2)+"€");
     }
 
-    private double formatCredit(byte[] array) {
+    private double formatCreditToDouble(byte[] array) {
         double credit = (double)(((0xff & array[4]) << 24) + ((0xff & array[3]) << 16) + ((0xff & array[2]) << 8) + (0xff & array[1])) / 1000D;
         return credit;
+    }
+
+    private static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     @Override

@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
     <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
+        <ListPreference
+            android:key="mensa_setting"
+            android:entries="@array/mensas"
+            android:entryValues="@array/mensa_values"
+            android:summary="@string/mensa_settings_sum"
+            android:title="@string/mensa_settings_title"
+            android:defaultValue="Mensa am Park"
+            />
     </PreferenceScreen>

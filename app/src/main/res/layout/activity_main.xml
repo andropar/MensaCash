@@ -19,11 +19,19 @@
         android:padding="16dp"
         android:gravity="center"
         style="@style/TextViewStyle"
+        android:layout_below="@id/my_toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:textSize="40dp"
-        android:text="Auf Unicard legen." />
+        android:textSize="35dp"
+        android:text="Auf Unicard legen."
+        android:id="@+id/main_text"/>
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_text"
+        android:id="@+id/MensaMenu"
+        android:name="com.example.johan.nfcreaderforunicard.MensaMenuFragment"/>
 
 </RelativeLayout>
