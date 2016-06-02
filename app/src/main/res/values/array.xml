@@ -11,6 +11,8 @@
         <item name="8">Mensa Schönauer Straße</item>
         <item name="9">Mensa Tierklinik</item>
     </string-array>
+
+    <!-- Used to complete the URL of the corresponding menu -->
     <string-array name="mensa_values">
         <item name="1">153</item>
         <item name="2">127</item>
@@ -21,5 +23,18 @@
         <item name="7">111</item>
         <item name="8">140</item>
         <item name="9">170</item>
+    </string-array>
+
+    <string-array name="states">
+        <item name="1">Student</item>
+        <item name="2">Bedienstete</item>
+        <item name="3">Gäste</item>
+    </string-array>
+
+    <!-- Used to select prices from an array (the value being the position of the price) -->
+    <string-array name="state_values">
+        <item name="1">0</item>
+        <item name="2">1</item>
+        <item name="3">2</item>
     </string-array>
 </resources>

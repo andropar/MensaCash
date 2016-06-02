@@ -6,6 +6,14 @@
             android:entryValues="@array/mensa_values"
             android:summary="@string/mensa_settings_sum"
             android:title="@string/mensa_settings_title"
-            android:defaultValue="Mensa am Park"
+            android:defaultValue="4"
             />
+
+        <ListPreference
+            android:key="state_setting"
+            android:entries="@array/states"
+            android:entryValues="@array/state_values"
+            android:summary="@string/state_setting_sum"
+            android:title="@string/state_setting_title"/>
+
     </PreferenceScreen>

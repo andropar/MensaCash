@@ -8,4 +8,6 @@
     <string name="pref_toggle_summ">Auflegen der Unicard startet App, wenn diese nicht schon geöffnet ist.</string>
     <string name="mensa_settings_sum">Wähle die Mensa, die du am häufigsten besuchst.</string>
     <string name="mensa_settings_title">Mensa auswählen</string>
+    <string name="state_setting_sum">Sag mir was du bist, damit ich die Preise an dich anpassen kann.</string>
+    <string name="state_setting_title">Status</string>
 </resources>
