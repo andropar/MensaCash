@@ -59,7 +59,7 @@ public class MensaMenuFragment extends ListFragment {
                     return todaysMenu.getData();
 
                 } catch (Exception e) {
-                    Log.v("MenuFragment", e.toString());
+
                 }
             }
             return null;

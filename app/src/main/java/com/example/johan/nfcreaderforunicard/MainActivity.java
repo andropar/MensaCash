@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     creditBytes = isodep.transceive(creditPayload);
                 }
             }catch (IOException e){
+
             }
         }
         float credit = (float)formatCreditToDouble(creditBytes);
