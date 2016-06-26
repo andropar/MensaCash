@@ -21,6 +21,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,10 +32,7 @@ import java.util.List;
  */
 public class MensaMenuFragment extends ListFragment {
 
-    private static final String TAG = "MensaMenuFragment";
-
-    List<String> data = new ArrayList<String>();
-    List<String> priceList = new ArrayList<String>();
+    Menu todaysMenu = new Menu();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -48,76 +46,57 @@ public class MensaMenuFragment extends ListFragment {
         new MenuTask().execute();
     }
 
-    public void updateMenuPositions(double credit){
-        Log.v(TAG, "Combine lists");
-        List<String> list = combineLists(data, priceList);
-        Log.v(TAG, "Create new array adapter");
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent){
-                TextView text = (TextView) super.getView(position, convertView, parent);
-                text.setBackgroundColor(Color.GREEN);
-                return text;
-            }
-        };
-        Log.v(TAG, "Set listadapter");
-        setListAdapter(adapter);
-    }
-
     private class MenuTask extends AsyncTask<List<String>, String, List<String>>{
         @Override
         protected List<String> doInBackground(List<String>... params){
-            ConnectivityManager cm =
-                    (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo netInfo = cm.getActiveNetworkInfo();
-            if(netInfo != null && netInfo.isConnected()){
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date date = new Date();
-
-                SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                String loc = sPref.getString("mensa_setting", "106");
-
-                String url = "http://www.studentenwerk-leipzig.de/mensa/menu?date=" +
-                        dateFormat.format(date) + "&location=" + loc;
-                Log.v(TAG, "URL:" + url);
+            if(isConnected()){
                 try {
-                    Document doc = Jsoup.connect(url).get();
-                    Elements menus = doc.getElementsByClass("menu");
-                    for (Element menu : menus) {
-                        if (menu.getElementsByClass("menu_price").hasText()) {
-                            Elements food = menu.getElementsByClass("col_name");
-                            Elements price = menu.getElementsByClass("menu_price");
-                            String text = "";
-                            for (Element foods : food) {
-                                Elements e = foods.children();
-                                for (Element singleFood : e) {
-                                    text += singleFood.text() + "\n";
-                                }
-                            }
-                            String[] prices = price.text().split("€");
-                            prices[1] = prices[1].replace("/", "").trim();
-                            prices[2] = prices[2].replace("/", "").trim();
-                            int i = Integer.parseInt(sPref.getString("state_setting", "0"));
-                            priceList.add(prices[i]);
-                            data.add(text);
-                        }
-                    }
-                    return data;
+                    SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    int state = Integer.parseInt(sPref.getString("state_setting", "0"));
+
+                    Document doc = getMenuDoc();
+                    todaysMenu.updateMenu(doc, state);
+                    return todaysMenu.getData();
+
                 } catch (Exception e) {
                     Log.v("MenuFragment", e.toString());
-
                 }
             }
             return null;
         }
 
-        @Override
-        protected void onPostExecute(List<String> data){
-            List<String> list = combineLists(data, priceList);
-            ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
-            setListAdapter(adapter);
+        private boolean isConnected(){
+            ConnectivityManager cm =
+                    (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            if(netInfo != null && netInfo.isConnected()){
+                return true;
+            }
+            else return false;
         }
 
+        private Document getMenuDoc() throws IOException{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+
+            SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            int state = Integer.parseInt(sPref.getString("state_setting", "0"));
+            String loc = sPref.getString("mensa_setting", "106");
+
+            String url = "https://www.studentenwerk-leipzig.de/mensen-cafeterien/speiseplan?location="+loc+
+                    "&date="+dateFormat.format(date)+"&criteria=&meal_type=all";
+
+            return Jsoup.connect(url).get();
+        }
+
+        @Override
+        protected void onPostExecute(List<String> data){
+            List<String> list = combineLists(data, todaysMenu.getPriceList());
+            if(list != null){
+                ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+                setListAdapter(adapter);
+            }
+        }
 
     }
 

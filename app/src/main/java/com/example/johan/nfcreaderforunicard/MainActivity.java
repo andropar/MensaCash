@@ -18,17 +18,9 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
-
-    private static final String TAG = "MainActivity";
-
-    // Storage-Bytes for InterCard
-    private final byte[] selectAid = {(byte)90, (byte)95, (byte)-124, (byte)21};      //select application command
-    private final byte[] creditPayload = {(byte)108, (byte)1};                        //select credit file
-
-    private byte[] resultOk;
-    private byte[] creditBytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,24 +29,35 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+
         if(NfcAdapter.ACTION_TECH_DISCOVERED.equals(getIntent().getAction())){
-            IsoDep isodep = IsoDep.get((Tag)getIntent().getParcelableExtra(NfcAdapter.EXTRA_TAG));
-            if(isodep != null){
-                try{
-                    isodep.connect();
-                    resultOk = isodep.transceive(selectAid);
-                    if(resultOk[0] == 0){
-                        creditBytes = isodep.transceive(creditPayload);
-                    }
-                }catch (IOException e){
-                }
-            }
-            float credit = (float)formatCreditToDouble(creditBytes);
-            MensaMenuFragment m_frag = (MensaMenuFragment)getSupportFragmentManager().findFragmentById(R.id.MensaMenu);
-            m_frag.updateMenuPositions(credit);
-            TextView label = (TextView)findViewById(R.id.main_text);
-            label.setText("Guthaben: "+round(credit, 2)+"€");
+            setCreditLabel(getIntent());
         }
+    }
+
+    private void setCreditLabel(Intent intent){
+        // Storage-Bytes for InterCard
+        final byte[] selectAid = {(byte)90, (byte)95, (byte)-124, (byte)21};      //select application command
+        final byte[] creditPayload = {(byte)108, (byte)1};                        //select credit file
+
+        byte[] resultOk;
+        byte[] creditBytes = {(byte) 0};
+
+        IsoDep isodep = IsoDep.get((Tag)intent.getParcelableExtra(NfcAdapter.EXTRA_TAG));
+        if(isodep != null){
+            try{
+                isodep.connect();
+                resultOk = isodep.transceive(selectAid);
+                if(resultOk[0] == 0){
+                    creditBytes = isodep.transceive(creditPayload);
+                }
+            }catch (IOException e){
+            }
+        }
+        float credit = (float)formatCreditToDouble(creditBytes);
+
+        TextView label = (TextView)findViewById(R.id.main_text);
+        label.setText("Guthaben: "+format(credit)+"€");
     }
 
     private double formatCreditToDouble(byte[] array) {
@@ -62,11 +65,9 @@ public class MainActivity extends AppCompatActivity {
         return credit;
     }
 
-    private static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
+    private static String format(double value) {
+        DecimalFormat decForm = new DecimalFormat("#.00");
+        return decForm.format(value);
     }
 
     @Override
